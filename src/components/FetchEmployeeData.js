@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+let allEmployees = []
+
 class FetchEmployeeData extends Component {
     state = {
         loading: true,
@@ -8,9 +10,10 @@ class FetchEmployeeData extends Component {
 
     async componentDidMount() {
         console.log("mounting");
-        const url = "https://randomuser.me/api/";
+        const url = "https://randomuser.me/api/?results=100";
         const response = await fetch(url);
         const data = await response.json();
+        console.log(data);
         console.log(data);
         this.setState({ employees: data.results, loading: false });
     }
@@ -22,9 +25,16 @@ class FetchEmployeeData extends Component {
                     <div>loading...</div>
                 ) : (
                         <div>
-                            <div>{this.state.employees[0].name.first}</div>
-                            <div>{this.state.employees[0].name.last}</div>
-                            <img src={this.state.employees[0].picture.large} alt="employee headshot" />
+                            {this.state.employees.map(employee => (
+                                <div>
+                                    <img src={employee.picture.large} alt="employee headshot" />
+                                    <div>
+                                        {employee.name.first} {" "}
+                                        {employee.name.last}
+                                    </div>
+                                </div>
+
+                            ))}
                         </div>
                     )}
             </div>
