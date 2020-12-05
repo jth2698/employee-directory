@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import FetchEmployeeData from './components/FetchEmployeeData';
+import EmployeeData from './components/EmployeeData';
 
 function App() {
-  return <FetchEmployeeData />
+  return <EmployeeData />
 }
 
 export default App;
