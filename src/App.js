@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import SearchForm from "./components/SearchForm";
+import SortButtons from "./components/SortButtons"
 import Container from "./components/Container";
 import Row from "./components/Row";
 import Col from "./components/Col";
-
 import './App.css';
+
 
 class App extends Component {
   state = {
@@ -30,6 +32,8 @@ class App extends Component {
       <Router>
         <div>
           <Navbar />
+          <SearchForm></SearchForm>
+          <SortButtons></SortButtons>
           <Container>
             {this.state.loading || !this.state.employees ? (
               <div>loading...</div>
