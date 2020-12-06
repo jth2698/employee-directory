@@ -1,56 +1,88 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import SearchForm from "./components/SearchForm";
 import SortButtons from "./components/SortButtons"
-import Container from "./components/Container";
-import Row from "./components/Row";
-import Col from "./components/Col";
+import CardList from "./components/UserCards/CardList";
 import './App.css';
 
+let direction;
 
 class App extends Component {
   state = {
     loading: true,
-    employees: [{}],
+    users: [],
     search: ""
   }
 
   async componentDidMount() {
-    const url = "https://randomuser.me/api/?results=100";
+    const url = "https://randomuser.me/api/?results=100&nat=US";
     const response = await fetch(url);
     const data = await response.json();
-    this.setState({ employees: data.results, loading: false });
+    this.setState({ users: data.results, loading: false });
   }
 
-  handleSearch = (e) => {
+  handleChange = (e) => {
+    console.log(e.target.value);
     this.setState({ search: e.target.value })
   }
 
+  sortLast = () => {
+    if (direction === "ascending" || direction === undefined) {
+      console.log("direction at beginning is " + direction)
+      const users = this.state.users.sort((a, b) =>
+        a.name.last.localeCompare(b.name.last)
+      );
+      this.setState({ users: users });
+      direction = "descending";
+      console.log("direction at end is " + direction)
+    }
+    else if (direction === "descending") {
+      const users = this.state.users.sort((a, b) =>
+        b.name.last.localeCompare(a.name.last)
+      );
+      this.setState({ users: users });
+      direction = "ascending";
+    }
+  }
+
+  sortFirst = () => {
+    if (direction === "ascending" || direction === undefined) {
+      console.log("direction at beginning is " + direction)
+      const users = this.state.users.sort((a, b) =>
+        a.name.first.localeCompare(b.name.first)
+      );
+      this.setState({ users: users });
+      direction = "descending";
+      console.log("direction at end is " + direction)
+    }
+    else if (direction === "descending") {
+      const users = this.state.users.sort((a, b) =>
+        b.name.first.localeCompare(a.name.first)
+      );
+      this.setState({ users: users });
+      direction = "ascending";
+    }
+  }
+
   render() {
+    const { users, search } = this.state;
+    const filteredUsers = users.filter(user => (
+      user.name.last.toLowerCase().includes(search.toLowerCase()) ||
+      user.name.first.toLowerCase().includes(search.toLowerCase())
+    ));
     return (
       <Router>
         <div>
           <Navbar />
-          <SearchForm></SearchForm>
-          <SortButtons></SortButtons>
-          <Container>
-            {this.state.loading || !this.state.employees ? (
-              <div>loading...</div>
-            ) : (
-                <Row>
-                  {this.state.employees.map(employee => (
-                    <Col size="md-3">
-                      <img src={employee.picture.large} alt="employee headshot" />
-                      <div>
-                        {employee.name.first} {" "}
-                        {employee.name.last}
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-              )}
-          </Container>
+          <SearchForm
+            handleChange={this.handleChange}
+          />
+          <SortButtons
+            sortLast={this.sortLast}
+            sortFirst={this.sortFirst}
+          />
+          <CardList users={filteredUsers} />
         </div>
       </Router>
     )
