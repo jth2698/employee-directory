@@ -9,7 +9,7 @@ function SearchForm({ handleChange }) {
                     onChange={handleChange}
                     type="search"
                     className="form-control"
-                    placeholder="Search for a user"
+                    placeholder="Search for an employee"
                 />
             </div>
         </form>

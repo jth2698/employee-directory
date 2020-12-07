@@ -29,13 +29,11 @@ class App extends Component {
 
   sortLast = () => {
     if (direction === "ascending" || direction === undefined) {
-      console.log("direction at beginning is " + direction)
       const users = this.state.users.sort((a, b) =>
         a.name.last.localeCompare(b.name.last)
       );
       this.setState({ users: users });
       direction = "descending";
-      console.log("direction at end is " + direction)
     }
     else if (direction === "descending") {
       const users = this.state.users.sort((a, b) =>
@@ -48,13 +46,11 @@ class App extends Component {
 
   sortFirst = () => {
     if (direction === "ascending" || direction === undefined) {
-      console.log("direction at beginning is " + direction)
       const users = this.state.users.sort((a, b) =>
         a.name.first.localeCompare(b.name.first)
       );
       this.setState({ users: users });
       direction = "descending";
-      console.log("direction at end is " + direction)
     }
     else if (direction === "descending") {
       const users = this.state.users.sort((a, b) =>

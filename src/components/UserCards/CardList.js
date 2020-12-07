@@ -6,7 +6,7 @@ function CardList(props) {
         <div className="cardList container row mx-auto">
             {props.users.map(user => (
                 <div className="col-md-3">
-                    <Card style={{ width: "8rem" }} key={user.id.value} user={user} />
+                    <Card style={{ width: "15rem" }} key={user.id.value} user={user} />
                 </div>
             ))}
         </div>
